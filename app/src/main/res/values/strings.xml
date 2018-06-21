@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Potrošačka Korpa</string>
+    <string name="homeToolBarTitle">Moje Liste</string>
+
+    <string name="menuItemSearch">Pretraga</string>
+    <string name="menuItemMore">Više</string>
+</resources>
