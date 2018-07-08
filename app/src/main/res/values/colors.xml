@@ -8,4 +8,12 @@
     <color name="lightRed">#E53935</color>
     <color name="background">#EEEEEE</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="lightGrey">#BDBDBD</color>
+    <color name="darkerGrey">#616161</color>
+    <color name="green">#4CAF50</color>
+    <color name="lightBlue">#2196F3</color>
+
+    <color name="textDarkPrimary">#DE000000</color>
+    <color name="textDarkSecondary">#8A000000</color>
 </resources>
