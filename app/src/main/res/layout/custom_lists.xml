@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/listImportance"
@@ -18,9 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginStart="50dp"
+        android:layout_marginEnd="60dp"
         android:fontFamily="@font/robotoregular"
         android:textColor="@color/textDarkPrimary"
-        android:textSize="16dp"/>
+        android:textSize="16dp"
+        android:text="Moja nova lista"/>
 
     <TextView
         android:id="@+id/listExpectedDate"
@@ -29,7 +31,8 @@
         android:layout_below="@id/listName"
         android:layout_alignStart="@id/listName"
         android:textColor="@color/textDarkSecondary"
-        android:fontFamily="@font/robotolight" />
+        android:fontFamily="@font/robotolight"
+        android:text="12.04.2018"/>
 
     <ImageButton
         android:id="@+id/listButton"

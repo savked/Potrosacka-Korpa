@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.Visibility;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,44 +13,67 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListsAdapter extends ArrayAdapter<Lists> {
+public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder>{
 
-    private Lists list;
+    private Context mContext;
+    private ArrayList<Lists> mList;
 
-    public ListsAdapter(Context context, ArrayList<Lists> list) {
-        super(context, R.layout.custom_lists, list);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public View mListImportance;
+        public TextView mListItemName;
+        public TextView mListExpectedDateTime;
+
+        public ViewHolder(View itemView){
+            super(itemView);
+
+            mListImportance = itemView.findViewById(R.id.listImportance);
+            mListItemName = itemView.findViewById(R.id.listName);
+            mListExpectedDateTime = itemView.findViewById(R.id.listExpectedDate);
+        }
+    }
+
+    public ListsAdapter(Context context, ArrayList<Lists> list){
+        mContext = context;
+        mList = list;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        list = getItem(position);
+    public ListsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-        View customView = inflater.inflate(R.layout.custom_lists, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_lists, parent, false);
 
-        View listImportance = (View) customView.findViewById(R.id.listImportance);
-        TextView listNameTv = (TextView) customView.findViewById(R.id.listName);
-        TextView listExpectedDateTv = (TextView) customView.findViewById(R.id.listExpectedDate);
+        ViewHolder viewHolder = new ViewHolder(view);
 
-        switch(list.getImportance()){
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ListsAdapter.ViewHolder holder, int position) {
+        holder.mListItemName.setText(mList.get(position).getName());
+
+        switch (mList.get(position).getImportance()) {
             case "grey":
-                listImportance.setBackgroundResource(R.drawable.ic_bookmark_grey);
+                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_grey);
                 break;
             case "green":
-                listImportance.setBackgroundResource(R.drawable.ic_bookmark_green);
+                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_green);
                 break;
             case "blue":
-                listImportance.setBackgroundResource(R.drawable.ic_bookmark_blue);
+                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_blue);
                 break;
             case "red":
-                listImportance.setBackgroundResource(R.drawable.ic_bookmark_red);
+                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_red);
                 break;
         }
-        listNameTv.setText(list.getName());
-        listExpectedDateTv.setText(list.getDateTime());
 
-        return customView;
+        holder.mListExpectedDateTime.setText(mList.get(position).getDateTime());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
     }
 }
