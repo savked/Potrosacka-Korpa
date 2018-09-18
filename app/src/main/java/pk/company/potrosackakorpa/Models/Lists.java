@@ -1,11 +1,11 @@
-package pk.company.potrosackakorpa;
+package pk.company.potrosackakorpa.Models;
 
 public class Lists {
     private String name;
     private String importance;
     private String dateTime;
 
-    Lists(String name, String importance, String dateTime){
+    public Lists(String name, String importance, String dateTime) {
         this.name = name;
         this.importance = importance;
         this.dateTime = dateTime;

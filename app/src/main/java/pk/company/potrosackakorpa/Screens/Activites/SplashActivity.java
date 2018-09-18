@@ -1,9 +1,11 @@
-package pk.company.potrosackakorpa;
+package pk.company.potrosackakorpa.Screens.Activites;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import pk.company.potrosackakorpa.R;
 
 public class SplashActivity extends AppCompatActivity {
 

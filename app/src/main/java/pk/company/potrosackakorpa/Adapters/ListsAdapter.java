@@ -1,29 +1,30 @@
-package pk.company.potrosackakorpa;
+package pk.company.potrosackakorpa.Adapters;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder>{
+import pk.company.potrosackakorpa.Models.Lists;
+import pk.company.potrosackakorpa.R;
 
-    private Context mContext;
+public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> {
+
+    private Context context;
     private ArrayList<Lists> mList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View mListImportance;
+        public ImageView mListImportance;
         public TextView mListItemName;
         public TextView mListExpectedDateTime;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
 
             mListImportance = itemView.findViewById(R.id.listImportance);
@@ -32,8 +33,8 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder>{
         }
     }
 
-    public ListsAdapter(Context context, ArrayList<Lists> list){
-        mContext = context;
+    public ListsAdapter(Context context, ArrayList<Lists> list) {
+        this.context = context;
         mList = list;
     }
 
@@ -41,7 +42,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder>{
     @Override
     public ListsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         View view = layoutInflater.inflate(R.layout.custom_lists, parent, false);
 
