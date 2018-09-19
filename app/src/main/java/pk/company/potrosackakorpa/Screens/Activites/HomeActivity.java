@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import pk.company.potrosackakorpa.Adapters.ListsAdapter;
 import pk.company.potrosackakorpa.Models.Lists;
 import pk.company.potrosackakorpa.R;
-import pk.company.potrosackakorpa.Screens.Fragments.NewListFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -50,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         initViews();
 
         initToolBar();
-        drawerControler();
+        drawerController();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
 
         // Add items to the list here
-
+        // This is just an example
         Lists list = new Lists("Šoping lista test1", "grey", "22.06.2018 - 13:00");
         Lists list2 = new Lists("Šoping lista test2", "green", "22.06.2018 - 14:00");
         Lists list3 = new Lists("Šoping lista test3", "blue", "22.06.2018 - 15:00");
@@ -79,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewListFragment.newInstance();
+                // Start A Screen/Fragment for New List
             }
         });
     }
@@ -114,10 +113,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void drawerControler() {
+    public void drawerController() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setCheckedItem(R.id.nav_lists); // First item to be checked as default
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -129,7 +131,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void initViews(){
+    private void initViews() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.listsListView);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
