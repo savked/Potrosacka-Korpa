@@ -1,4 +1,4 @@
-package pk.company.potrosackakorpa.Adapters;
+package pk.company.potrosackakorpa;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,9 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import pk.company.potrosackakorpa.Models.Lists;
-import pk.company.potrosackakorpa.R;
 
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> {
 

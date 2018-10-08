@@ -1,4 +1,4 @@
-package pk.company.potrosackakorpa.Models;
+package pk.company.potrosackakorpa;
 
 public class Lists {
     private String name;

@@ -1,4 +1,4 @@
-package pk.company.potrosackakorpa.Screens.Activites;
+package pk.company.potrosackakorpa;
 
 import android.content.Intent;
 import android.os.Handler;

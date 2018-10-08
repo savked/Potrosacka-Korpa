@@ -1,10 +1,13 @@
-package pk.company.potrosackakorpa.Screens.Activites;
+package pk.company.potrosackakorpa;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -16,30 +19,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import pk.company.potrosackakorpa.Adapters.ListsAdapter;
-import pk.company.potrosackakorpa.Models.Lists;
-import pk.company.potrosackakorpa.R;
 
 public class HomeActivity extends AppCompatActivity {
 
     private Context context = this;
 
-    private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<Lists> lists = new ArrayList<>();
 
     private FloatingActionButton floatingActionButton;
 
+    private NewListFragment newListFragment;
+    private View fadeBackground;
 
-    private boolean pressedTwice = false;
+
+    private boolean pressedTwice = false; // used in onBackPressed to let user exit the app with two clicks on back button
+    private boolean isNewListVisible = false; // used to see if the "NewListFragment" is visible
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +74,24 @@ public class HomeActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(listAdapter);
 
-        //
-
         // FAB Handling
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start A Screen/Fragment for New List
+                if (!isNewListVisible) {
+                    isNewListVisible = true;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    newListFragment = new NewListFragment();
+                    fragmentTransaction.add(R.id.fragment_container, newListFragment);
+                    fragmentTransaction.commit();
+
+                    fadeBackground.setVisibility(View.VISIBLE);
+                    fadeBackground.animate().alpha(0.5f);
+
+                    floatingActionButton.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -100,14 +113,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void initToolBar() {
-        toolbar = (Toolbar) findViewById(R.id.homeToolBar);
+        Toolbar toolbar = findViewById(R.id.homeToolBar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.homeToolBarTitle);
 
         ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
         toolbar.inflateMenu(R.menu.home_toolbar_menu);
 
@@ -133,30 +148,47 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initViews() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mRecyclerView = (RecyclerView) findViewById(R.id.listsListView);
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        mRecyclerView = findViewById(R.id.listsListView);
+        floatingActionButton = findViewById(R.id.floatingActionButton);
+        fadeBackground = findViewById(R.id.fadeBackground);
 
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     @Override
     public void onBackPressed() {
-        if (pressedTwice) {
-            super.onBackPressed();
-            this.finishAffinity();
-        }
-
-        this.pressedTwice = true;
-        Toast.makeText(this, "Pritisnite nazad dugme još jednom da bi ste izašli", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pressedTwice = false;
+        if (!isNewListVisible) {
+            if (pressedTwice) {
+                super.onBackPressed();
+                this.finishAffinity();
             }
-        }, 2000);
+
+            this.pressedTwice = true;
+            Toast.makeText(this, "Pritisnite nazad dugme još jednom da bi ste izašli", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    pressedTwice = false;
+                }
+            }, 2000);
+        } else {
+            floatingActionButton.setVisibility(View.VISIBLE);
+            fadeBackground.animate().alpha(0.0f);
+            fadeBackground.setVisibility(View.GONE);
+            isNewListVisible = false;
+
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragmentTransaction.remove(newListFragment);
+            fragmentTransaction.commit();
+
+
+        }
     }
 }

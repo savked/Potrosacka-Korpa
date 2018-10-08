@@ -5,6 +5,8 @@
     <string name="menuItemSearch">Pretraga</string>
     <string name="menuItemMore">Više</string>
 
+    <string name="newListName">List name</string>
+
     <string name="nav_lists">Moje liste</string>
     <string name="nav_about">O aplikaciji</string>
     <string name="nav_history">Izvodi</string>
