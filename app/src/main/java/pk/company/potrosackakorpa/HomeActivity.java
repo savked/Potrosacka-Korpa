@@ -1,6 +1,5 @@
 package pk.company.potrosackakorpa;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,29 +18,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Context context = this;
-
+    private Context mContext;
     private DrawerLayout mDrawerLayout;
-
     private RecyclerView mRecyclerView;
+    private FloatingActionButton mFAB;
+    private View mFadeBackground;
+    private NewListFragment newListFragment;
+
+    private boolean mPressedTwice = false; // used in onBackPressed to let user exit the app with two clicks on back button
+    private boolean mIsNewsListVisible = false; // used to see if the "NewListFragment" is visible
 
     private ArrayList<Lists> lists = new ArrayList<>();
 
-    private FloatingActionButton floatingActionButton;
-
-    private NewListFragment newListFragment;
-    private View fadeBackground;
-
-
-    private boolean pressedTwice = false; // used in onBackPressed to let user exit the app with two clicks on back button
-    private boolean isNewListVisible = false; // used to see if the "NewListFragment" is visible
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +64,16 @@ public class HomeActivity extends AppCompatActivity {
         lists.add(list3);
         lists.add(list4);
 
-        ListsAdapter listAdapter = new ListsAdapter(context, lists);
+        ListsAdapter listAdapter = new ListsAdapter(mContext, lists);
 
         mRecyclerView.setAdapter(listAdapter);
 
         // FAB Handling
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isNewListVisible) {
-                    isNewListVisible = true;
+                if (!mIsNewsListVisible) {
+                    mIsNewsListVisible = true;
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -87,10 +81,10 @@ public class HomeActivity extends AppCompatActivity {
                     fragmentTransaction.add(R.id.fragment_container, newListFragment);
                     fragmentTransaction.commit();
 
-                    fadeBackground.setVisibility(View.VISIBLE);
-                    fadeBackground.animate().alpha(0.5f);
+                    mFadeBackground.setVisibility(View.VISIBLE);
+                    mFadeBackground.animate().alpha(0.5f);
 
-                    floatingActionButton.setVisibility(View.GONE);
+                    mFAB.setVisibility(View.GONE);
                 }
             }
         });
@@ -147,10 +141,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mContext = this;
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mRecyclerView = findViewById(R.id.listsListView);
-        floatingActionButton = findViewById(R.id.floatingActionButton);
-        fadeBackground = findViewById(R.id.fadeBackground);
+        mFAB = findViewById(R.id.floatingActionButton);
+        mFadeBackground = findViewById(R.id.fadeBackground);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -160,26 +155,26 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!isNewListVisible) {
-            if (pressedTwice) {
+        if (!mIsNewsListVisible) {
+            if (mPressedTwice) {
                 super.onBackPressed();
                 this.finishAffinity();
             }
 
-            this.pressedTwice = true;
+            this.mPressedTwice = true;
             Toast.makeText(this, "Pritisnite nazad dugme još jednom da bi ste izašli", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    pressedTwice = false;
+                    mPressedTwice = false;
                 }
             }, 2000);
         } else {
-            floatingActionButton.setVisibility(View.VISIBLE);
-            fadeBackground.animate().alpha(0.0f);
-            fadeBackground.setVisibility(View.GONE);
-            isNewListVisible = false;
+            mFAB.setVisibility(View.VISIBLE);
+            mFadeBackground.animate().alpha(0.0f);
+            mFadeBackground.setVisibility(View.GONE);
+            mIsNewsListVisible = false;
 
 
             FragmentManager fragmentManager = getSupportFragmentManager();

@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     android:background="@drawable/ripple"
     android:clickable="true"
-    android:padding="10dp"
+    android:focusable="true"
     android:orientation="horizontal"
-    android:focusable="true">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/listImportance"
@@ -50,6 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_more_vert"/>
+        android:background="@drawable/ic_more_vert" />
 
 </LinearLayout>
