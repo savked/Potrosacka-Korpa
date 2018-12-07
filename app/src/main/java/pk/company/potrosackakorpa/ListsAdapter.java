@@ -6,40 +6,44 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> {
+public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> implements View.OnClickListener {
 
-    private Context context;
+    private Context mContext;
     private ArrayList<Lists> mList;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mListImportance;
-        public TextView mListItemName;
-        public TextView mListExpectedDateTime;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView listImportance;
+        TextView listItemName;
+        TextView listExpectedDateTime;
+        ImageButton listButton;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
-            mListImportance = itemView.findViewById(R.id.listImportance);
-            mListItemName = itemView.findViewById(R.id.listName);
-            mListExpectedDateTime = itemView.findViewById(R.id.listExpectedDate);
+            listImportance = itemView.findViewById(R.id.listImportance);
+            listItemName = itemView.findViewById(R.id.listName);
+            listExpectedDateTime = itemView.findViewById(R.id.listExpectedDate);
+            listButton = itemView.findViewById(R.id.listButton);
         }
     }
 
-    public ListsAdapter(Context context, ArrayList<Lists> list) {
-        this.context = context;
-        mList = list;
+    ListsAdapter(Context context, ArrayList<Lists> list) {
+        this.mContext = context;
+        this.mList = list;
     }
 
     @NonNull
     @Override
     public ListsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         View view = layoutInflater.inflate(R.layout.custom_lists, parent, false);
 
@@ -50,28 +54,40 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ListsAdapter.ViewHolder holder, int position) {
-        holder.mListItemName.setText(mList.get(position).getName());
+        holder.listItemName.setText(mList.get(position).getName());
 
         switch (mList.get(position).getImportance()) {
             case "grey":
-                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_grey);
+                holder.listImportance.setBackgroundResource(R.drawable.ic_bookmark_grey);
                 break;
             case "green":
-                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_green);
+                holder.listImportance.setBackgroundResource(R.drawable.ic_bookmark_green);
                 break;
             case "blue":
-                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_blue);
+                holder.listImportance.setBackgroundResource(R.drawable.ic_bookmark_blue);
                 break;
             case "red":
-                holder.mListImportance.setBackgroundResource(R.drawable.ic_bookmark_red);
+                holder.listImportance.setBackgroundResource(R.drawable.ic_bookmark_red);
                 break;
         }
 
-        holder.mListExpectedDateTime.setText(mList.get(position).getDateTime());
+        holder.listExpectedDateTime.setText(mList.get(position).getDateTime());
+
+        holder.listButton.setOnClickListener(this);
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.listButton:
+                // Do something here
+                Toast.makeText(mContext, "TEST", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

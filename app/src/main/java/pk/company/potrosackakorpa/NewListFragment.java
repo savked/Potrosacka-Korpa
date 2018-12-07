@@ -17,8 +17,4 @@ public class NewListFragment extends Fragment {
 
         return view;
     }
-
-    public NewListFragment newInstance(){
-        return new NewListFragment();
-    }
 }

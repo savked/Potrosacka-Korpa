@@ -8,6 +8,9 @@
     <string name="newListName">List name</string>
 
     <string name="nav_lists">Moje liste</string>
-    <string name="nav_about">O aplikaciji</string>
     <string name="nav_history">Izvodi</string>
+    <string name="nav_settings">Podešavanja</string>
+    <string name="nav_about">O aplikaciji</string>
+
+    <string name="go_backText">Pritisnite nazad dugme još jednom da bi ste izašli</string>
 </resources>
