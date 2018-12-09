@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context mContext;
     private Toolbar mToolbar;
@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     private boolean mPressedTwice = false; // used in onBackPressed to let user exit the app with two clicks on back button
     private boolean mIsNewsListVisible = false; // used to see if the "NewListFragment" is visible
 
-    private ArrayList<Lists> lists = new ArrayList<>();
+    private ArrayList<ListModel> lists = new ArrayList<>();
 
 
     @Override
@@ -55,10 +55,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Add items to the list here
         // This is just an example
-        Lists list = new Lists("Šoping lista test1", "grey", "22.06.2018 - 13:00");
-        Lists list2 = new Lists("Šoping lista test2", "green", "22.06.2018 - 14:00");
-        Lists list3 = new Lists("Šoping lista test3", "blue", "22.06.2018 - 15:00");
-        Lists list4 = new Lists("Šoping lista test4", "red", "22.06.2018 - 16:00");
+        ListModel list = new ListModel("Šoping lista test1", "grey", "22.06.2018 - 13:00");
+        ListModel list2 = new ListModel("Šoping lista test2", "green", "22.06.2018 - 14:00");
+        ListModel list3 = new ListModel("Šoping lista test3", "blue", "22.06.2018 - 15:00");
+        ListModel list4 = new ListModel("Šoping lista test4", "red", "22.06.2018 - 16:00");
 
         lists.add(list);
         lists.add(list2);
@@ -68,24 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         ListsAdapter listAdapter = new ListsAdapter(mContext, lists);
 
         mRecyclerView.setAdapter(listAdapter);
-
-        // FAB Handling
-        mFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mIsNewsListVisible) {
-                    mIsNewsListVisible = true;
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    newListFragment = new NewListFragment();
-                    fragmentTransaction.add(R.id.fragment_container, newListFragment);
-                    fragmentTransaction.commit();
-
-                    mFAB.setVisibility(View.GONE);
-                }
-            }
-        });
     }
 
     @Override
@@ -143,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         mFAB = findViewById(R.id.floatingActionButton);
 
         mRecyclerView.setHasFixedSize(true);
+        mFAB.setOnClickListener(this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -171,7 +154,6 @@ public class HomeActivity extends AppCompatActivity {
             mFAB.setVisibility(View.VISIBLE);
             mIsNewsListVisible = false;
 
-
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -179,6 +161,25 @@ public class HomeActivity extends AppCompatActivity {
             fragmentTransaction.commit();
 
 
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.floatingActionButton:
+                if (!mIsNewsListVisible) {
+                    mIsNewsListVisible = true;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    newListFragment = new NewListFragment();
+                    fragmentTransaction.add(R.id.fragment_container, newListFragment);
+                    fragmentTransaction.commit();
+
+                    mFAB.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 }

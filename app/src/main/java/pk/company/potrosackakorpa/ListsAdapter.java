@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private ArrayList<Lists> mList;
+    private ArrayList<ListModel> mList;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView listImportance;
@@ -34,7 +34,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> 
         }
     }
 
-    ListsAdapter(Context context, ArrayList<Lists> list) {
+    ListsAdapter(Context context, ArrayList<ListModel> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -54,9 +54,11 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ListsAdapter.ViewHolder holder, int position) {
-        holder.listItemName.setText(mList.get(position).getName());
+        ListModel list = mList.get(position);
 
-        switch (mList.get(position).getImportance()) {
+        holder.listItemName.setText(list.getName());
+
+        switch (list.getImportance()) {
             case "grey":
                 holder.listImportance.setBackgroundResource(R.drawable.ic_bookmark_grey);
                 break;
@@ -71,7 +73,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> 
                 break;
         }
 
-        holder.listExpectedDateTime.setText(mList.get(position).getDateTime());
+        holder.listExpectedDateTime.setText(list.getDateTime());
 
         holder.listButton.setOnClickListener(this);
     }

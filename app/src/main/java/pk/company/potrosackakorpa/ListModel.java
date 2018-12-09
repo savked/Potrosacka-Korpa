@@ -1,11 +1,11 @@
 package pk.company.potrosackakorpa;
 
-public class Lists {
+public class ListModel {
     private String name;
     private String importance;
     private String dateTime;
 
-    public Lists(String name, String importance, String dateTime) {
+    public ListModel(String name, String importance, String dateTime) {
         this.name = name;
         this.importance = importance;
         this.dateTime = dateTime;
