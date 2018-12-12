@@ -16,6 +16,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,27 +48,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         initToolBar();
         drawerController();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Add items to the list here
-        // This is just an example
-        ListModel list = new ListModel("Šoping lista test1", "grey", "22.06.2018 - 13:00");
-        ListModel list2 = new ListModel("Šoping lista test2", "green", "22.06.2018 - 14:00");
-        ListModel list3 = new ListModel("Šoping lista test3", "blue", "22.06.2018 - 15:00");
-        ListModel list4 = new ListModel("Šoping lista test4", "red", "22.06.2018 - 16:00");
-
-        lists.add(list);
-        lists.add(list2);
-        lists.add(list3);
-        lists.add(list4);
-
-        ListsAdapter listAdapter = new ListsAdapter(mContext, lists);
-
-        mRecyclerView.setAdapter(listAdapter);
+        initList();
     }
 
     @Override
@@ -84,6 +66,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initList() {
+        // Add items to the list here
+        // This is just an example
+        ListModel list = new ListModel("Šoping lista test1", "grey", "22.06.2018 - 13:00");
+        ListModel list2 = new ListModel("Šoping lista test2", "green", "22.06.2018 - 14:00");
+        ListModel list3 = new ListModel("Šoping lista test3", "blue", "22.06.2018 - 15:00");
+        ListModel list4 = new ListModel("Šoping lista test4", "red", "22.06.2018 - 16:00");
+
+        lists.add(list);
+        lists.add(list2);
+        lists.add(list3);
+        lists.add(list4);
+
+        ListsAdapter listAdapter = new ListsAdapter(mContext, lists);
+
+        mRecyclerView.setAdapter(listAdapter);
     }
 
     public void initToolBar() {
@@ -129,8 +129,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // Decoration for RecyclerView (line under every view)
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), ((LinearLayoutManager) mLayoutManager).getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        // Adding swipe feature to RecyclerView
+        SwipeController swipeController = new SwipeController();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
