@@ -132,12 +132,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         // Decoration for RecyclerView (line under every view)
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), ((LinearLayoutManager) mLayoutManager).getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-        // Adding swipe feature to RecyclerView
-        SwipeController swipeController = new SwipeController();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.addItemDecoration(dividerItemDecoration); 
     }
 
     @Override
